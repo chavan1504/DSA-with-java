@@ -1,0 +1,45 @@
+class Tester {
+
+    // Function to find the maximum sum of the subarray containing the middle element
+    public static int findMaxCrossingSubarraySum(int arr[], int low, int mid, int high) {
+        int sum = 0;
+        int leftSum = Integer.MIN_VALUE;
+        for (int i = mid; i >= low; i--) {
+            sum += arr[i];
+            if (sum > leftSum) {
+                leftSum = sum;
+            }
+        }
+
+        sum = 0;
+        int rightSum = Integer.MIN_VALUE;
+        for (int j = mid + 1; j <= high; j++) {
+            sum += arr[j];
+            if (sum > rightSum) {
+                rightSum = sum;
+            }
+        }
+
+        return leftSum + rightSum;
+    }
+
+    // Function to find the maximum sum of contiguous subarray using divide and conquer technique
+    public static int findMaxSum(int arr[], int low, int high) {
+        if (low == high) {
+            return arr[low];
+        }
+
+        int mid = (low + high) / 2;
+
+        int leftMaxSum = findMaxSum(arr, low, mid);
+        int rightMaxSum = findMaxSum(arr, mid + 1, high);
+        int crossMaxSum = findMaxCrossingSubarraySum(arr, low, mid, high);
+
+        return Math.max(Math.max(leftMaxSum, rightMaxSum), crossMaxSum);
+    }
+
+    public static void main(String[] args) {
+        int arr[] = { -2, -5, 6, -2, -3, 1, 5, -6 };
+        System.out.println("Maximum sum: " + findMaxSum(arr, 0, arr.length - 1));
+    }
+}

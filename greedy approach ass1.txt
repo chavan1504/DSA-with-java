@@ -1,0 +1,31 @@
+class Tester {
+
+    public static int findSwapCount(String inputString) {
+        int openCount = 0, closeCount = 0;
+        int imbalance = 0;
+
+        for (char c : inputString.toCharArray()) {
+            if (c == '(') {
+                openCount++;
+                if (imbalance > 0) {
+                    // A match for a previously unmatched ')'
+                    imbalance--;
+                }
+            } else {
+                closeCount++;
+                // If there are more ')' than '(' so far
+                if (closeCount > openCount) {
+                    imbalance = closeCount - openCount;
+                }
+            }
+        }
+
+        // Number of swaps needed is the same as the number of imbalances
+        return imbalance;
+    }
+
+    public static void main(String[] args) {
+        String inputString = "())()(";
+        System.out.println("Number of swaps: " + findSwapCount(inputString));
+    }
+}
